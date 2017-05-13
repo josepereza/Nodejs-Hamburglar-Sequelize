@@ -1,0 +1,77 @@
+<h1>Burgers!</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+
+      <h2>Add a burger</h2>
+      <form class="create-update-form" action="/" method="POST">
+
+        <div class="form-group">
+          <label for="ca">Burger name:</label>
+          <input type="text" id="ca" name="burger_name">
+        </div>
+
+        <div class="form-group">
+          <label for="slee">Stolen?</label><br>
+          <input type="radio" name="devoured" value="1" checked> Stolen!<br>
+          <input type="radio" name="devoured" value="0"> not stolen
+        </div>
+
+        <button type="submit">Add burger</button>
+      </form>
+
+    </div>
+    <div class="col-sm-4"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <img src="/assets/img/hamburglar.jpg" style="max-width: 200px">
+
+      <h2>Burgers not stolen!</h2>
+
+      <ul>
+        {{#each Burger}}
+          {{#unless this.devoured}}
+            <li>
+              {{this.burger_name}}
+
+              <form action="/{{this.id}}?_method=PUT" method="POST">
+                <input type="hidden" name="devoured" value="true">
+                <button type="submit">Stolen!</button>
+              </form>
+
+              {{> burgers/delete-burger}}
+            </li>
+          {{/unless}}
+        {{/each}}
+      </ul>
+    </div>
+    <div class="col-sm-6">
+      <img src="/assets/img/hamburglarReturn.jpg" style="max-width: 200px">
+      <h2>Burgers Stolen!</h2>
+
+      <ul>
+      <!-- getting error here change to upper case burger -->
+        {{#each Burger}}
+          {{#if this.devoured}}
+            <li>
+              {{this.burger_name}}
+
+              <form action="/{{this.id}}?_method=PUT" method="POST">
+                <input type="hidden" name="devoured" value="false">
+                <button type="submit">return!</button>
+              </form>
+
+              {{> burgers/delete-burger}}
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+</div>
+
